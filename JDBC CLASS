@@ -1,0 +1,51 @@
+/*CopyRight Upesh Karki**
+  Program Descreption: This program connects with the T-SQL Database that is running on the localhost of the user.
+  To get this code running in your machine follow below steps:
+  1. Download TSQL database connector from "https://docs.microsoft.com/en-us/sql/connect/jdbc/microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15"
+   Things to note: be sure to check your JDK version (to check JDK on windows just click Start and search "About JAVA"
+  2. Create a new java project with appropriate class name
+  3. create a filder named lib and paste your connector you downloaded earlier
+  4. right click on roject and select build path, add jars, select the jar on the lib folder
+  5.copy and paste the code below
+  Program Limitations: This program can only connect if the database is located on the same computer. In the real world this is never the case thus to connect
+        to a database remotely first you have to make your localhost global.
+  */
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+public class JDBCConnecton {
+	
+	public static void main(String[] args)
+	{
+		String connectionURL = "jdbc:sqlserver://localhost:12001; databaseName = TSQLV4 ; user =SA; password = PH@123456789";
+		try {
+			// create a connection
+			Connection myConn = DriverManager.getConnection(connectionURL);
+			System.out.println("Connection created sucessfully.....");
+			
+			// creating a statement
+			Statement myStmt = myConn.createStatement();
+			
+			ResultSet myRs = myStmt.executeQuery("Select * from HR.Employees");
+			while (myRs.next())
+			{
+				System.out.println(myRs.getString("lastname")+ ","+ myRs.getString("firstname"));
+				}
+			}
+    catch(SQLException se){
+        //Handle errors for JDBC
+        se.printStackTrace();
+     }
+
+}
+}
